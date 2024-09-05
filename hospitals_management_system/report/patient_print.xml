@@ -1,0 +1,209 @@
+<odoo>
+    <record id="book_print" model="ir.actions.report">
+        <field name="name">Patient Print</field>
+        <field name="model">hms.patient</field>
+        <!--        <field name="report_type">qweb-pdf</field>-->
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">hospitals_management_system.report_patient_templet</field>
+        <field name="report_file">hospitals_management_system.report_patient_templet</field>
+        <field name="print_report_name">'Patient - %s' % (object.first_name)</field>
+        <field name="binding_model_id" ref="hospitals_management_system.model_hms_patient"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_patient_templet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <style>
+                    .patient-report {
+                    border: 2px solid blue;
+                    padding: 20px;
+                    font-family: Arial, sans-serif;
+                    }
+                    .patient-report h1 {
+                    color: red;
+                    text-align: start;
+                    }
+                    .patient-report .header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    border-bottom: 2px solid #eee;
+                    padding-bottom: 10px;
+                    margin-bottom: 20px;
+                    }
+                    .patient-report .header .info {
+                    width: 60%;
+                    }
+                    .patient-report .header .info p {
+                    margin: 5px 0;
+                    }
+                    .patient-report .header img {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 10px;
+                    }
+                    .log-history {
+                    margin-top: 20px;
+                    width: 100%;
+                    }
+                    h2 {
+                    color: red;
+                    text-align: center;
+                    }
+                    .log-history th {
+                    background-color: #0066CC;
+                    color: white;
+                    padding: 10px;
+                    text-align: left;
+                    }
+                    .log-history td {
+                    background-color: #f2f2f2;
+                    padding: 10px;
+                    }
+                </style>
+
+                <div class="patient-report">
+                    <h1>Patient Status Report</h1>
+                    <div class="header">
+                        <div class="info">
+                            <p>
+                                <strong>Name:</strong>
+                                <t t-esc="doc.first_name"/>
+                                <t t-esc="doc.last_name"/>
+                            </p>
+                            <p>
+                                <strong>Age:</strong>
+                                <t t-esc="doc.age"/>
+                            </p>
+                            <p>
+                                <strong>Department:</strong>
+                                <t t-esc="doc.department_id"/>
+                            </p>
+                            <p>
+                                <strong>Doctors:</strong>
+                                <span t-foreach="doc.doctor_id" t-as="doctor">
+                                    <span t-esc="doctor.name"/>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="info">
+                            <p>
+                                <strong>Birth date:</strong>
+                                <t t-esc="doc.birth_date"/>
+                            </p>
+                            <p>
+                                <strong>PCR:</strong>
+                                <t t-esc="doc.pcr"/>
+                            </p>
+                            <p>
+                                <strong>Blood Type:</strong>
+                                <t t-esc="doc.blood_type"/>
+                            </p>
+                            <p>
+                                <strong>Email:</strong>
+                                <t t-esc="doc.email"/>
+                            </p>
+                        </div>
+                        <div>
+                            <img t-if="doc.image" t-att-src="image_data_uri(doc.image)"
+                                 style="max-width: 150px;"/>
+                        </div>
+                    </div>
+
+                    <h2>Log History</h2>
+                    <table class="log-history">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Date</th>
+                                <th>Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.log_ids" t-as="log">
+                                <td>
+                                    <t t-esc="log.created_by"/>
+                                </td>
+                                <td>
+                                    <t t-esc="log.date"/>
+                                </td>
+                                <td>
+                                    <t t-esc="log.description"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+
+        <!--        <t t-call="web.html_container">-->
+        <!--            <t t-foreach="docs" t-as="doc">-->
+        <!--                <div class="page">-->
+        <!--                    <table>-->
+        <!--                        <tr>-->
+        <!--                            <td>-->
+        <!--                                <h2>Patient Status Report</h2>-->
+        <!--                                <div>-->
+        <!--                                    <strong>Name:</strong>-->
+        <!--                                    <span t-esc="doc.first_name"/>-->
+        <!--                                    <span t-esc="doc.last_name"/>-->
+        <!--                                </div>-->
+        <!--                                <div>-->
+        <!--                                    <strong>Age:</strong>-->
+        <!--                                    <span t-esc="doc.age"/>-->
+        <!--                                </div>-->
+        <!--                                <div>-->
+        <!--                                    <strong>Department:</strong>-->
+        <!--                                    <span t-esc="doc.department_id"/>-->
+        <!--                                </div>-->
+        <!--                                <div>-->
+        <!--                                    <strong>Doctors:</strong>-->
+        <!--                                    <span t-foreach="doc.doctor_id" t-as="doctor">-->
+        <!--                                        <span t-esc="doctor.name"/>-->
+        <!--                                    </span>-->
+        <!--                                </div>-->
+        <!--                            </td>-->
+        <!--                            <td>-->
+        <!--                                <img t-if="doc.image" t-att-src="image_data_uri(doc.image)"-->
+        <!--                                     style="max-width: 150px;"/>-->
+        <!--                                <div>-->
+        <!--                                    <strong>Birth Date:</strong>-->
+        <!--                                    <span t-esc="doc.birth_date"/>-->
+        <!--                                </div>-->
+        <!--                                <div>-->
+        <!--                                    <strong>Blood Type:</strong>-->
+        <!--                                    <span t-esc="doc.blood_type"/>-->
+        <!--                                </div>-->
+        <!--                                <div>-->
+        <!--                                    <strong>PCR:</strong>-->
+        <!--                                    <span t-esc="doc.pcr"/>-->
+        <!--                                </div>-->
+        <!--                                <div>-->
+        <!--                                    <strong>Email:</strong>-->
+        <!--                                    <span t-esc="doc.email"/>-->
+        <!--                                </div>-->
+        <!--                            </td>-->
+        <!--                        </tr>-->
+        <!--                    </table>-->
+        <!--                    <h3>Log History</h3>-->
+        <!--                    <table class="table table-sm">-->
+        <!--                        <thead>-->
+        <!--                            <tr>-->
+        <!--                                <th>Date</th>-->
+        <!--                                <th>Info</th>-->
+        <!--                            </tr>-->
+        <!--                        </thead>-->
+        <!--                        <tbody>-->
+        <!--                            <tr t-foreach="doc.log_ids" t-as="log">-->
+        <!--                                <td t-esc="log.date"/>-->
+        <!--                                <td t-esc="log.info"/>-->
+        <!--                            </tr>-->
+        <!--                        </tbody>-->
+        <!--                    </table>-->
+        <!--                </div>-->
+        <!--            </t>-->
+        <!--        </t>-->
+    </template>
+</odoo>

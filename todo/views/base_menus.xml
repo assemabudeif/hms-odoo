@@ -1,0 +1,10 @@
+<odoo>
+    <menuitem id="menu_todo"
+              name="ToDo"
+    />
+
+    <menuitem id="menu_root_tickets"
+              name="Tickets"
+              parent="menu_todo"
+    />
+</odoo>

@@ -1,0 +1,82 @@
+<odoo>
+    <!--  Define HMS Category  -->
+    <record id="hms_category" model="ir.module.category">
+        <field name="name">Hospitals Management System:</field>
+    </record>
+
+    <!-- Define the new user group: User -->
+    <record id="group_hms_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id"
+               ref="hospitals_management_system.hms_category"/>
+    </record>
+
+    <!-- Define the new user group: Manager -->
+    <record id="group_hms_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id"
+               ref="hospitals_management_system.hms_category"/>
+    </record>
+
+    <!-- Access rights for User group -->
+    <record id="access_hms_user_patient" model="ir.model.access">
+        <field name="name">access.hms.user.patient</field>
+        <field name="model_id" ref="model_hms_patient"/>
+        <field name="group_id" ref="group_hms_user"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+    </record>
+
+    <record id="access_hms_user_department" model="ir.model.access">
+        <field name="name">access.hms.user.department</field>
+        <field name="model_id" ref="model_hms_department"/>
+        <field name="group_id" ref="group_hms_user"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+    </record>
+
+    <record id="access_hms_user_doctor" model="ir.model.access">
+        <field name="name">access.hms.user.doctor</field>
+        <field name="model_id" ref="model_hms_doctor"/>
+        <field name="group_id" ref="group_hms_user"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+    </record>
+
+    <!-- Access rights for Manager group -->
+    <record id="access_hms_manager_patient" model="ir.model.access">
+        <field name="name">access.hms.manager.patient</field>
+        <field name="model_id" ref="model_hms_patient"/>
+        <field name="group_id" ref="group_hms_manager"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+    <record id="access_hms_manager_department" model="ir.model.access">
+        <field name="name">access.hms.manager.department</field>
+        <field name="model_id" ref="model_hms_department"/>
+        <field name="group_id" ref="group_hms_manager"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+    <record id="access_hms_manager_doctor" model="ir.model.access">
+        <field name="name">access.hms.manager.doctor</field>
+        <field name="model_id" ref="model_hms_doctor"/>
+        <field name="group_id" ref="group_hms_manager"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+</odoo>
